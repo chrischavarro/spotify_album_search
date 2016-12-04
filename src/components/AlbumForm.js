@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 class AlbumForm extends Component {
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 		this.state = {
 			albumName: ""
 		}
@@ -10,7 +10,6 @@ class AlbumForm extends Component {
 
 	onalbumNameChange(e){
 		this.setState({albumName: e.target.value})
-		console.log(this.state.albumName)
 	}
 
 	albumSearch(e){

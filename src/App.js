@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
-import './App.css';
-import AlbumList from './AlbumList'
-import Album from './Album';
-import AlbumDetailModal from './AlbumDetailModal';
-import AlbumForm from './AlbumForm';
+import AlbumList from './components/AlbumList'
+import AlbumForm from './components/AlbumForm';
+import CurrentAlbum from './components/CurrentAlbum'
 import axios from 'axios';
 
 class App extends Component {
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+    
     this.state = {
-      albumList: []
+      albumList: [],
+      selectedAlbum: null
+
     }
   }
 
   onFormSubmit(newSearch){
-    console.log(newSearch)
+    // console.log(newSearch)
     axios.get('https://api.spotify.com/v1/search?type=album&query=' + newSearch.name)
       .then((response) => {
 
-        this.setState({ albumList: response.data.albums.items })
-        
-        console.log(response.data.albums.items)
+        this.setState({ 
+          albumList: response.data.albums.items 
+        })
+        // console.log(response.data.albums.items)
+        // console.log(this.state.albumList)
       })
       .catch((err) => {
         alert(err)
@@ -30,13 +33,17 @@ class App extends Component {
   }
 
   render() {
-    var { name } = this.state;
-    console.log(this.props.albumName)
+    // console.log(this.props.albumName)
+    // ALBUM RENDER IS PASSING ALBUMS TO ALBUM COMPONENT AS THIS.PROPS.ALBUMS
     return (
       <div>
-        <span>Your Search For { name }</span>
-        <AlbumForm onSearchSubmit={this.onFormSubmit.bind(this)} />
-        <AlbumList albums={this.state.albumList} />
+        <span>Search for an Album!</span>
+        <AlbumForm onSearchSubmit={this.onFormSubmit.bind(this)} /> 
+        <AlbumList 
+          onAlbumSelect={selectedAlbum => this.setState({selectedAlbum})}
+          albums={this.state.albumList} 
+        />
+        <CurrentAlbum album={this.state.selectedAlbum} />
       </div>
 
       )

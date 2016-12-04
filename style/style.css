@@ -3,3 +3,8 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.album-art {
+	width: 400px;
+	height: 400px;
+}
